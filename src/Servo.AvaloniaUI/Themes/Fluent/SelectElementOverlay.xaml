@@ -1,0 +1,31 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:servo="using:Servo.AvaloniaUI">
+
+  <ControlTheme x:Key="{x:Type servo:SelectElementOverlay}" TargetType="servo:SelectElementOverlay">
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Canvas>
+          <Panel Name="PART_Backdrop"
+                 Width="{Binding $parent[Canvas].Bounds.Width}"
+                 Height="{Binding $parent[Canvas].Bounds.Height}"
+                 Background="Transparent" />
+
+          <Border Name="PART_Dropdown"
+                  Canvas.Left="{TemplateBinding DropdownLeft}"
+                  Canvas.Top="{TemplateBinding DropdownTop}"
+                  Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
+                  BorderBrush="{DynamicResource SystemControlTransientBorderBrush}"
+                  BorderThickness="1"
+                  CornerRadius="{DynamicResource OverlayCornerRadius}"
+                  BoxShadow="0 2 8 #40000000">
+            <ListBox Name="PART_ListBox"
+                     MaxHeight="300"
+                     SelectionMode="Toggle" />
+          </Border>
+        </Canvas>
+      </ControlTemplate>
+    </Setter>
+  </ControlTheme>
+
+</ResourceDictionary>

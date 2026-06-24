@@ -1,0 +1,49 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:servo="using:Servo.AvaloniaUI">
+
+  <ControlTheme x:Key="{x:Type servo:BluetoothDeviceOverlay}" TargetType="servo:BluetoothDeviceOverlay">
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Panel>
+          <Panel Name="PART_Backdrop" Background="#80000000" />
+
+          <Border HorizontalAlignment="Center"
+                  VerticalAlignment="Center"
+                  Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
+                  BorderBrush="{DynamicResource SystemControlTransientBorderBrush}"
+                  BorderThickness="1"
+                  CornerRadius="{DynamicResource OverlayCornerRadius}"
+                  Padding="24"
+                  MinWidth="340"
+                  MaxWidth="420"
+                  BoxShadow="0 4 16 #50000000">
+            <StackPanel>
+              <TextBlock Text="Bluetooth Device Selection"
+                         FontWeight="SemiBold"
+                         FontSize="16"
+                         Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"
+                         Margin="0,0,0,8" />
+
+              <TextBlock Text="{TemplateBinding PromptText}"
+                         TextWrapping="Wrap"
+                         Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"
+                         Margin="0,0,0,12" />
+
+              <ListBox Name="PART_ListBox"
+                       MaxHeight="200"
+                       SelectionMode="Toggle"
+                       Margin="0,0,0,16" />
+
+              <Button Name="PART_CancelButton"
+                      Content="Cancel"
+                      MinWidth="80"
+                      HorizontalAlignment="Right" />
+            </StackPanel>
+          </Border>
+        </Panel>
+      </ControlTemplate>
+    </Setter>
+  </ControlTheme>
+
+</ResourceDictionary>

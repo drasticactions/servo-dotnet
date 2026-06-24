@@ -1,0 +1,50 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:servo="using:Servo.AvaloniaUI">
+
+  <ControlTheme x:Key="{x:Type servo:NotificationOverlay}" TargetType="servo:NotificationOverlay">
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Panel HorizontalAlignment="Right"
+               VerticalAlignment="Top"
+               Margin="16">
+          <Border Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
+                  BorderBrush="{DynamicResource SystemControlTransientBorderBrush}"
+                  BorderThickness="1"
+                  CornerRadius="{DynamicResource OverlayCornerRadius}"
+                  Padding="16"
+                  MinWidth="280"
+                  MaxWidth="360"
+                  BoxShadow="0 4 16 #50000000">
+            <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto">
+              <TextBlock Grid.Row="0" Grid.Column="0"
+                         Text="{TemplateBinding TitleText}"
+                         FontWeight="SemiBold"
+                         FontSize="14"
+                         Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"
+                         TextTrimming="CharacterEllipsis" />
+
+              <Button Name="PART_CloseButton"
+                      Grid.Row="0" Grid.Column="1"
+                      Content="&#x2715;"
+                      Background="Transparent"
+                      BorderThickness="0"
+                      Padding="4,0"
+                      FontSize="12"
+                      VerticalAlignment="Top"
+                      Margin="8,0,0,0" />
+
+              <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                         Text="{TemplateBinding BodyText}"
+                         TextWrapping="Wrap"
+                         Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"
+                         FontSize="13"
+                         Margin="0,4,0,0" />
+            </Grid>
+          </Border>
+        </Panel>
+      </ControlTemplate>
+    </Setter>
+  </ControlTheme>
+
+</ResourceDictionary>

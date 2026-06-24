@@ -1,0 +1,97 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:servo="using:Servo.AvaloniaUI">
+
+  <ControlTheme x:Key="{x:Type servo:ColorPickerOverlay}" TargetType="servo:ColorPickerOverlay">
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Panel>
+          <Panel Name="PART_Backdrop" Background="#80000000" />
+
+          <Border HorizontalAlignment="Center"
+                  VerticalAlignment="Center"
+                  Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
+                  BorderBrush="{DynamicResource SystemControlTransientBorderBrush}"
+                  BorderThickness="1"
+                  CornerRadius="{DynamicResource OverlayCornerRadius}"
+                  Padding="24"
+                  MinWidth="300"
+                  MaxWidth="360"
+                  BoxShadow="0 4 16 #50000000">
+            <StackPanel Spacing="12">
+              <TextBlock Text="Choose a Color"
+                         FontWeight="SemiBold"
+                         FontSize="16"
+                         Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}" />
+
+              <Border Name="PART_Preview"
+                      Background="{TemplateBinding PreviewBrush}"
+                      Height="48"
+                      CornerRadius="4"
+                      BorderBrush="{DynamicResource SystemControlForegroundBaseLowBrush}"
+                      BorderThickness="1" />
+
+              <Grid ColumnDefinitions="Auto,*,Auto" RowDefinitions="Auto,Auto,Auto" RowSpacing="8">
+                <TextBlock Grid.Row="0" Grid.Column="0"
+                           Text="R" VerticalAlignment="Center" Margin="0,0,8,0"
+                           Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}" />
+                <Slider Grid.Row="0" Grid.Column="1"
+                        Name="PART_RedSlider"
+                        Minimum="0" Maximum="255" TickFrequency="1" IsSnapToTickEnabled="True"
+                        Value="{TemplateBinding RedValue, Mode=TwoWay}" />
+                <TextBlock Grid.Row="0" Grid.Column="2"
+                           Text="{TemplateBinding RedValue}"
+                           VerticalAlignment="Center" Margin="8,0,0,0" Width="30"
+                           Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}" />
+
+                <TextBlock Grid.Row="1" Grid.Column="0"
+                           Text="G" VerticalAlignment="Center" Margin="0,0,8,0"
+                           Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}" />
+                <Slider Grid.Row="1" Grid.Column="1"
+                        Name="PART_GreenSlider"
+                        Minimum="0" Maximum="255" TickFrequency="1" IsSnapToTickEnabled="True"
+                        Value="{TemplateBinding GreenValue, Mode=TwoWay}" />
+                <TextBlock Grid.Row="1" Grid.Column="2"
+                           Text="{TemplateBinding GreenValue}"
+                           VerticalAlignment="Center" Margin="8,0,0,0" Width="30"
+                           Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}" />
+
+                <TextBlock Grid.Row="2" Grid.Column="0"
+                           Text="B" VerticalAlignment="Center" Margin="0,0,8,0"
+                           Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}" />
+                <Slider Grid.Row="2" Grid.Column="1"
+                        Name="PART_BlueSlider"
+                        Minimum="0" Maximum="255" TickFrequency="1" IsSnapToTickEnabled="True"
+                        Value="{TemplateBinding BlueValue, Mode=TwoWay}" />
+                <TextBlock Grid.Row="2" Grid.Column="2"
+                           Text="{TemplateBinding BlueValue}"
+                           VerticalAlignment="Center" Margin="8,0,0,0" Width="30"
+                           Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}" />
+              </Grid>
+
+              <DockPanel>
+                <TextBlock Text="Hex:" VerticalAlignment="Center" Margin="0,0,8,0"
+                           Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}" />
+                <TextBox Name="PART_HexInput"
+                         Text="{TemplateBinding HexText, Mode=TwoWay}"
+                         MaxLength="7" />
+              </DockPanel>
+
+              <StackPanel Orientation="Horizontal"
+                          HorizontalAlignment="Right"
+                          Spacing="8">
+                <Button Name="PART_CancelButton"
+                        Content="Cancel"
+                        MinWidth="80" />
+                <Button Name="PART_OkButton"
+                        Content="OK"
+                        MinWidth="80" />
+              </StackPanel>
+            </StackPanel>
+          </Border>
+        </Panel>
+      </ControlTemplate>
+    </Setter>
+  </ControlTheme>
+
+</ResourceDictionary>

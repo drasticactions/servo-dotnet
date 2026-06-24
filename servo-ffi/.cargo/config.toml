@@ -1,0 +1,4 @@
+# Rust's default TLS model for cdylib is global-dynamic, which is what we
+# want. The STATIC_TLS dynamic flag on the resulting .so comes from C/C++
+# static dependencies; CFLAGS/CXXFLAGS in build.sh override those to also
+# use global-dynamic. See build.sh for the rationale.

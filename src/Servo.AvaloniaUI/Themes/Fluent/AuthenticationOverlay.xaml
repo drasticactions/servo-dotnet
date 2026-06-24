@@ -1,0 +1,54 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:servo="using:Servo.AvaloniaUI">
+
+  <ControlTheme x:Key="{x:Type servo:AuthenticationOverlay}" TargetType="servo:AuthenticationOverlay">
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Panel>
+          <Panel Name="PART_Backdrop" Background="#80000000" />
+
+          <Border HorizontalAlignment="Center"
+                  VerticalAlignment="Center"
+                  Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
+                  BorderBrush="{DynamicResource SystemControlTransientBorderBrush}"
+                  BorderThickness="1"
+                  CornerRadius="{DynamicResource OverlayCornerRadius}"
+                  Padding="24"
+                  MinWidth="340"
+                  MaxWidth="400"
+                  BoxShadow="0 4 16 #50000000">
+            <StackPanel>
+              <TextBlock Name="PART_PromptText"
+                         Text="{TemplateBinding PromptText}"
+                         TextWrapping="Wrap"
+                         Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"
+                         Margin="0,0,0,12" />
+
+              <TextBox Name="PART_UsernameBox"
+                       PlaceholderText="Username"
+                       Margin="0,0,0,8" />
+
+              <TextBox Name="PART_PasswordBox"
+                       PlaceholderText="Password"
+                       PasswordChar="&#x2022;"
+                       Margin="0,0,0,16" />
+
+              <StackPanel Orientation="Horizontal"
+                          HorizontalAlignment="Right">
+                <Button Name="PART_CancelButton"
+                        Content="Cancel"
+                        MinWidth="80" />
+                <Button Name="PART_SignInButton"
+                        Content="Sign In"
+                        MinWidth="80"
+                        Margin="8,0,0,0" />
+              </StackPanel>
+            </StackPanel>
+          </Border>
+        </Panel>
+      </ControlTemplate>
+    </Setter>
+  </ControlTheme>
+
+</ResourceDictionary>

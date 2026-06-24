@@ -1,0 +1,59 @@
+[package]
+name = "servo-ffi"
+version = "0.2.0"
+edition = "2024"
+description = "C FFI bindings for the Servo web engine"
+license = "MPL-2.0"
+rust-version = "1.88.0"
+
+[lib]
+name = "servo_ffi"
+crate-type = ["cdylib"]
+
+[dependencies]
+servo = { path = "../external/servo/components/servo", default-features = false, features = ["js_jit", "gamepad"] }
+servo-base = { path = "../external/servo/components/shared/base" }
+servo-profile-traits = { path = "../external/servo/components/shared/profile" }
+cookie = "0.18"
+dpi = "0.1"
+euclid = "0.22"
+gleam = "0.15"
+glow = "0.17.0"
+keyboard-types = { version = "0.8.3", features = ["serde"] }
+surfman = { version = "0.13.0", features = ["chains"] }
+serde_json = "1"
+url = "2"
+http = "1.4"
+log = "0.4"
+env_logger = "0.11"
+raw-window-handle = "0.6"
+servo-allocator = { path = "../external/servo/components/allocator" }
+
+[target.'cfg(target_os = "windows")'.dependencies]
+servo = { path = "../external/servo/components/servo", default-features = false, features = ["js_jit", "gamepad", "clipboard", "no-wgl"] }
+surfman = { version = "0.13.0", features = ["chains", "sm-angle-default"] }
+windows = { version = "0.61", features = [
+    "Win32_Foundation",
+    "Win32_Graphics_Direct3D",
+    "Win32_Graphics_Direct3D11",
+    "Win32_Graphics_Dxgi",
+    "Win32_Graphics_Dxgi_Common",
+] }
+
+[target.'cfg(all(target_os = "linux", not(target_env = "ohos")))'.dependencies]
+servo = { path = "../external/servo/components/servo", default-features = false, features = ["js_jit", "gamepad", "clipboard"] }
+surfman = { version = "0.13.0", features = ["chains", "sm-x11"] }
+tikv-jemalloc-sys = { version = "0.6", features = ["disable_initial_exec_tls"] }
+
+[target.'cfg(target_os = "macos")'.dependencies]
+servo = { path = "../external/servo/components/servo", default-features = false, features = ["js_jit", "gamepad", "clipboard"] }
+objc2 = "0.6"
+objc2-metal = "0.3"
+
+[target.'cfg(target_os = "android")'.dependencies]
+servo = { path = "../external/servo/components/servo", default-features = false, features = ["js_jit", "gamepad"] }
+surfman = { version = "0.13.0", features = ["chains", "sm-angle-default"] }
+
+[build-dependencies]
+cbindgen = "0.27"
+csbindgen = "1.9.7"

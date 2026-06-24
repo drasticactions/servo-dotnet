@@ -1,0 +1,18 @@
+<Styles xmlns="https://github.com/avaloniaui">
+  <Styles.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <MergeResourceInclude Source="avares://Servo.AvaloniaUI/Themes/Fluent/AlertOverlay.xaml" />
+        <MergeResourceInclude Source="avares://Servo.AvaloniaUI/Themes/Fluent/ConfirmOverlay.xaml" />
+        <MergeResourceInclude Source="avares://Servo.AvaloniaUI/Themes/Fluent/PromptOverlay.xaml" />
+        <MergeResourceInclude Source="avares://Servo.AvaloniaUI/Themes/Fluent/SelectElementOverlay.xaml" />
+        <MergeResourceInclude Source="avares://Servo.AvaloniaUI/Themes/Fluent/AuthenticationOverlay.xaml" />
+        <MergeResourceInclude Source="avares://Servo.AvaloniaUI/Themes/Fluent/NotificationOverlay.xaml" />
+        <MergeResourceInclude Source="avares://Servo.AvaloniaUI/Themes/Fluent/ProtocolHandlerOverlay.xaml" />
+        <MergeResourceInclude Source="avares://Servo.AvaloniaUI/Themes/Fluent/PermissionOverlay.xaml" />
+        <MergeResourceInclude Source="avares://Servo.AvaloniaUI/Themes/Fluent/BluetoothDeviceOverlay.xaml" />
+        <MergeResourceInclude Source="avares://Servo.AvaloniaUI/Themes/Fluent/ColorPickerOverlay.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary>
+  </Styles.Resources>
+</Styles>

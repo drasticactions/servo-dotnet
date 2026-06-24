@@ -1,0 +1,53 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <ServoArtifactsDir>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)../artifacts/'))</ServoArtifactsDir>
+    <ServoResourcesDir>$(ServoArtifactsDir)/resources/</ServoResourcesDir>
+    <DefineConstants Condition="$([MSBuild]::IsOSPlatform('Windows'))">WINDOWS</DefineConstants>
+    <DefineConstants Condition="$([MSBuild]::IsOSPlatform('Linux'))">LINUX</DefineConstants>
+    <DefineConstants Condition="$([MSBuild]::IsOSPlatform('OSX'))">MACOS</DefineConstants>
+    <IsWindows>$([MSBuild]::IsOSPlatform('Windows'))</IsWindows>
+    <IsLinux>$([MSBuild]::IsOSPlatform('Linux'))</IsLinux>
+    <IsOSX>$([MSBuild]::IsOSPlatform('OSX'))</IsOSX>
+  </PropertyGroup>
+
+  <ItemGroup Condition="$([MSBuild]::IsOSPlatform('Windows'))">
+    <None Include="$(ServoArtifactsDir)/runtimes/win-x64/native/**/*.dll"
+          Condition="Exists('$(ServoArtifactsDir)/runtimes/win-x64/native/')"
+          CopyToOutputDirectory="PreserveNewest"
+          Link="%(Filename)%(Extension)"
+          Visible="false" />
+  </ItemGroup>
+
+  <ItemGroup Condition="$([MSBuild]::IsOSPlatform('Linux'))">
+    <None Include="$(ServoArtifactsDir)/runtimes/linux-x64/native/**/*.so"
+          Condition="Exists('$(ServoArtifactsDir)/runtimes/linux-x64/native/')"
+          CopyToOutputDirectory="PreserveNewest"
+          Link="%(Filename)%(Extension)"
+          Visible="false" />
+  </ItemGroup>
+
+  <ItemGroup Condition="$([MSBuild]::IsOSPlatform('OSX')) And '$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture)' == 'X64'">
+    <None Include="$(ServoArtifactsDir)/runtimes/osx-x64/native/**/*.dylib"
+          Condition="Exists('$(ServoArtifactsDir)/runtimes/osx-x64/native/')"
+          CopyToOutputDirectory="PreserveNewest"
+          Link="%(Filename)%(Extension)"
+          Visible="false" />
+  </ItemGroup>
+
+  <ItemGroup Condition="$([MSBuild]::IsOSPlatform('OSX')) And '$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture)' == 'Arm64'">
+    <None Include="$(ServoArtifactsDir)/runtimes/osx-arm64/native/**/*.dylib"
+          Condition="Exists('$(ServoArtifactsDir)/runtimes/osx-arm64/native/')"
+          CopyToOutputDirectory="PreserveNewest"
+          Link="%(Filename)%(Extension)"
+          Visible="false" />
+  </ItemGroup>
+
+  <ItemGroup Condition="Exists('$(ServoResourcesDir)')">
+    <None Include="$(ServoResourcesDir)**/*"
+          CopyToOutputDirectory="PreserveNewest"
+          Link="resources/%(RecursiveDir)%(Filename)%(Extension)"
+          Visible="false" />
+  </ItemGroup>
+
+</Project>

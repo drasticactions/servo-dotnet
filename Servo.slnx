@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="src/Servo/Servo.csproj" />
+  <Project Path="src/Servo.AvaloniaUI/Servo.AvaloniaUI.csproj" />
+</Solution>
