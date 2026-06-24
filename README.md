@@ -11,3 +11,7 @@ servo-dotnet is an experimental binding of [Servo](https://servo.org) to .NET.
 The base [dotnet](./src/Servo/) library implements the boilerplate over the ffi library to create the base level controls.
 
 The [Avalonia](./src/Servo.AvaloniaUI/) library implements those controls for UI.
+
+## How to build
+
+Run the build scripts in the root of the repo. Use `build.sh` or `build-android.sh` on macOS and Linux, and `build.ps1` on Windows.
