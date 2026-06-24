@@ -1,0 +1,56 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:servo="clr-namespace:Servo.AvaloniaUI;assembly=Servo.AvaloniaUI"
+        mc:Ignorable="d" d:DesignWidth="1024" d:DesignHeight="700"
+        x:Class="Servo.AvaloniaUI.Demo.MainWindow"
+        Width="1024" Height="700"
+        Title="Servo.AvaloniaUI Demo">
+
+    <DockPanel>
+        <!-- Navigation toolbar -->
+        <Border DockPanel.Dock="Top"
+                Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
+                BorderBrush="{DynamicResource SystemControlForegroundBaseLowBrush}"
+                BorderThickness="0,0,0,1"
+                Padding="8,6">
+            <Grid ColumnDefinitions="Auto,Auto,Auto,*,Auto">
+                <Button x:Name="BackButton" Grid.Column="0"
+                        Content="&#x2190;" FontSize="16"
+                        ToolTip.Tip="Back" Click="OnBackClick" />
+                <Button x:Name="ForwardButton" Grid.Column="1" Margin="4,0,0,0"
+                        Content="&#x2192;" FontSize="16"
+                        ToolTip.Tip="Forward" Click="OnForwardClick" />
+                <Button x:Name="ReloadButton" Grid.Column="2" Margin="4,0,0,0"
+                        Content="&#x21BB;" FontSize="16"  Width="36"
+                        ToolTip.Tip="Reload" Click="OnReloadClick" />
+                <TextBox x:Name="AddressBar" Grid.Column="3" Margin="8,0"
+                         VerticalContentAlignment="Center"
+                         PlaceholderText="Enter a URL and press Enter"
+                         KeyDown="OnAddressBarKeyDown" />
+                <Button x:Name="GoButton" Grid.Column="4"
+                        Content="Go"
+                        Click="OnGoClick" />
+            </Grid>
+        </Border>
+
+        <!-- Loading progress strip -->
+        <ProgressBar x:Name="LoadingBar" DockPanel.Dock="Top"
+                     IsIndeterminate="True" Height="3" IsVisible="False" />
+
+        <!-- Status bar -->
+        <Border DockPanel.Dock="Bottom"
+                Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
+                BorderBrush="{DynamicResource SystemControlForegroundBaseLowBrush}"
+                BorderThickness="0,1,0,0"
+                Padding="8,3">
+            <TextBlock x:Name="StatusText" FontSize="12"
+                       TextTrimming="CharacterEllipsis"
+                       Text="Ready" />
+        </Border>
+
+        <!-- The Servo-backed web view fills the remaining space -->
+        <servo:ServoWebViewControl x:Name="WebView" />
+    </DockPanel>
+</Window>
