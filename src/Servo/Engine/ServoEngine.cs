@@ -81,6 +81,8 @@ public sealed class ServoEngine : IDisposable
         }
     }
 
+    public bool IsDisposed => _disposed;
+
     public unsafe void SpinEventLoop()
     {
         ThrowIfDisposed();
