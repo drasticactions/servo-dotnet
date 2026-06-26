@@ -43,7 +43,7 @@ impl HardwareRenderingContext {
     pub fn new(size: PhysicalSize<u32>) -> Result<Self, Error> {
         let connection = Connection::new()?;
         let adapter = connection.create_hardware_adapter()?;
-        let device = connection.create_device(&adapter)?;
+        let mut device = connection.create_device(&adapter)?;
 
         let flags = ContextAttributeFlags::ALPHA
             | ContextAttributeFlags::DEPTH
@@ -55,58 +55,70 @@ impl HardwareRenderingContext {
         };
         let context_descriptor =
             device.create_context_descriptor(&ContextAttributes { flags, version })?;
-        let context = device.create_context(&context_descriptor, None)?;
+        let mut context = device.create_context(&context_descriptor, None)?;
 
+        match Self::init_attached(size, gl_api, &mut device, &mut context) {
+            Ok((gleam_gl, glow_gl, swap_chain)) => {
+                #[cfg(target_os = "windows")]
+                let d3d11_keyed_mutex = probe_keyed_mutex(&device, &mut context);
+                Ok(HardwareRenderingContext {
+                    size: Cell::new(size),
+                    gleam_gl,
+                    glow_gl,
+                    device: std::cell::RefCell::new(device),
+                    context: std::cell::RefCell::new(context),
+                    swap_chain,
+                    taken_frames: std::cell::RefCell::new(HashMap::new()),
+                    next_frame_id: Cell::new(1),
+                    #[cfg(target_os = "windows")]
+                    d3d11_keyed_mutex,
+                    #[cfg(target_os = "macos")]
+                    fence_worker: std::cell::OnceCell::new(),
+                })
+            }
+            Err(e) => {
+                // Tears down the context (and any surface still bound to it) so its
+                // drop-guard is satisfied; ignore cleanup errors and surface the original.
+                let _ = device.destroy_context(&mut context);
+                Err(e)
+            }
+        }
+    }
+
+    fn init_attached(
+        size: PhysicalSize<u32>,
+        gl_api: GLApi,
+        device: &mut Device,
+        context: &mut Context,
+    ) -> Result<(Rc<dyn gleam::gl::Gl>, Arc<glow::Context>, SwapChain<Device>), Error> {
         #[expect(unsafe_code)]
         let gleam_gl = unsafe {
             match gl_api {
-                GLApi::GL => gleam::gl::GlFns::load_with(|s| device.get_proc_address(&context, s)),
-                GLApi::GLES => gleam::gl::GlesFns::load_with(|s| device.get_proc_address(&context, s)),
+                GLApi::GL => gleam::gl::GlFns::load_with(|s| device.get_proc_address(context, s)),
+                GLApi::GLES => gleam::gl::GlesFns::load_with(|s| device.get_proc_address(context, s)),
             }
         };
 
         #[expect(unsafe_code)]
         let glow_gl = unsafe {
-            glow::Context::from_loader_function(|s| device.get_proc_address(&context, s))
+            glow::Context::from_loader_function(|s| device.get_proc_address(context, s))
         };
 
         let surfman_size = Size2D::new(size.width as i32, size.height as i32);
         let surface = device.create_surface(
-            &context,
+            context,
             SurfaceAccess::GPUOnly,
             SurfaceType::Generic { size: surfman_size },
         )?;
-        let mut context = context;
-        device
-            .bind_surface_to_context(&mut context, surface)
-            .map_err(|(e, _)| e)?;
-        device.make_context_current(&context)?;
+        
+        if let Err((e, mut surface)) = device.bind_surface_to_context(context, surface) {
+            let _ = device.destroy_surface(context, &mut surface);
+            return Err(e);
+        }
+        device.make_context_current(context)?;
 
-        let mut device = device;
-        let swap_chain = SwapChain::create_attached(
-            &mut device,
-            &mut context,
-            SurfaceAccess::GPUOnly,
-        )?;
-        #[cfg(target_os = "windows")]
-        let d3d11_keyed_mutex = probe_keyed_mutex(&device, &mut context);
-        let device = std::cell::RefCell::new(device);
-        let context = std::cell::RefCell::new(context);
-
-        Ok(HardwareRenderingContext {
-            size: Cell::new(size),
-            gleam_gl,
-            glow_gl: Arc::new(glow_gl),
-            device,
-            context,
-            swap_chain,
-            taken_frames: std::cell::RefCell::new(HashMap::new()),
-            next_frame_id: Cell::new(1),
-            #[cfg(target_os = "windows")]
-            d3d11_keyed_mutex,
-            #[cfg(target_os = "macos")]
-            fence_worker: std::cell::OnceCell::new(),
-        })
+        let swap_chain = SwapChain::create_attached(device, context, SurfaceAccess::GPUOnly)?;
+        Ok((gleam_gl, Arc::new(glow_gl), swap_chain))
     }
 
     pub fn frame_export_kind(&self) -> u32 {
