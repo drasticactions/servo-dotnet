@@ -2,6 +2,7 @@
 using System.IO;
 using Avalonia;
 using Servo.AvaloniaUI;
+using Avalonia.X11;
 
 namespace Servo.AvaloniaUI.Demo;
 
@@ -18,6 +19,7 @@ class Program
     public static AppBuilder BuildAvaloniaApp()
         => AppBuilder.Configure<App>()
             .UsePlatformDetect()
+            .With(new X11PlatformOptions { RenderingMode = new[] { X11RenderingMode.Egl } })
             .UseServo(ResolveResourcePath())
 #if DEBUG
             .WithDeveloperTools()
